@@ -52,6 +52,7 @@ app.delete('/todos/:id', function(req, res) {
     
     if(matchedTodo) {
         todos = _.without(todos, matchedTodo);
+        res.json(matchedTodo);
         
     } else {
         res.status(404).send();
