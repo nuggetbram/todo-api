@@ -90,7 +90,21 @@ app.post('/todos', function (req, res) {
 
 app.delete('/todos/:id', function (req, res) {
     var todoID = parseInt(req.params.id, 10);
-    var matchedTodo = _.findWhere(todos, {
+    
+    where = {
+        id: todoID
+    };
+    
+    db.todo.destroy({where: where}).then(function (deletedItems) {
+        if(deletedItems === 0) {
+            res.status(404).send();
+        } else {
+            res.status(204).send();
+        }
+    }, function(e) {
+       res.status(500).send(); 
+    });
+    /*var matchedTodo = _.findWhere(todos, {
         id: todoID
     });
 
@@ -100,7 +114,7 @@ app.delete('/todos/:id', function (req, res) {
 
     } else {
         res.status(404).send();
-    }
+    }*/
 });
 
 app.put('/todos/:id', function (req, res) {
